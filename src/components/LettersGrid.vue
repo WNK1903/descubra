@@ -1,12 +1,22 @@
-<script setup>
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
-import EcosystemIcon from './icons/IconEcosystem.vue'
-import CommunityIcon from './icons/IconCommunity.vue'
-import SupportIcon from './icons/IconSupport.vue'
-</script>
-
 <template>
-  <div>Testando letters grid</div>
+
+  <div>{{testeletters}}</div>
 
 </template>
+
+<script>
+export default {
+  name: "LettersGrid",
+  data: function () {
+    return {
+      testeletters: 'Testando reatividade letters-grid',
+    };
+  },
+  mounted() {},
+  methods: {},
+};
+</script>
+
+<style scoped>
+
+</style>

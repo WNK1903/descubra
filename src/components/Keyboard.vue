@@ -1,12 +1,21 @@
-<script setup>
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
-import EcosystemIcon from './icons/IconEcosystem.vue'
-import CommunityIcon from './icons/IconCommunity.vue'
-import SupportIcon from './icons/IconSupport.vue'
-</script>
-
 <template>
-  <div>Testando Keyboard</div>
+  <div>{{testekeyboard}}</div>
 
 </template>
+
+<script>
+export default {
+  name: "Keyboard",
+  data: function () {
+    return {
+      testekeyboard: 'Testando reatividade keyboard',
+    };
+  },
+  mounted() {},
+  methods: {},
+};
+</script>
+
+<style scoped>
+
+</style>
