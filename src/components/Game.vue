@@ -105,6 +105,7 @@ export default {
       n: 'N',
       m: 'M',
       enter: 'ENTER',
+      blank: '',
       arrWords: [
         ['', '', '', '', ''],
         ['', '', '', '', ''],
@@ -163,6 +164,21 @@ export default {
     },
     //função para excluir a última letra adicionada na linha corrente
     erraseWord: function(){
+      if(!this.verifyAttemp(0)) this.erraseLetter(0);
+      else if(!this.verifyAttemp(1)) this.erraseLetter(1);
+      else if(!this.verifyAttemp(2)) this.erraseLetter(2);
+      else if(!this.verifyAttemp(3)) this.erraseLetter(3);
+      else if(!this.verifyAttemp(4)) this.erraseLetter(4);
+      else if(!this.verifyAttemp(5)) this.erraseLetter(5);
+
+    },
+    erraseLetter: function(lineNumber){
+      for(let i =  this.arrWords[0].length; i >= 0; i--){
+        if(this.arrWords[lineNumber][i] !== '' && !(this.arrWords[lineNumber][i] === undefined)){
+          this.arrWords[lineNumber][i] = '';
+          return;
+        } 
+      }
     },
     //função para submeter uma tentativa
     submitAttemp: function(){},
