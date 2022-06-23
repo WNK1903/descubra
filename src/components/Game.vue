@@ -1,7 +1,21 @@
 <template>
 
   <div id="top">
-
+    <div class="conteudo">
+      <div>
+        <i class="fa-solid fa-circle-question margin10"></i>
+        <i class="fa-solid fa-circle-chevron-up"></i>
+      </div>
+  </div>
+  <div class="conteudo">
+    {{topo}}
+  </div>
+  <div class="conteudo">
+    <div>
+      <i class="fa-solid fa-chart-simple margin10"></i>
+      <i class="fa-solid fa-gear"></i>
+    </div>
+  </div>
   </div>
   <div id="middle">
     <div id="words-table">
@@ -77,6 +91,7 @@ export default {
   name: "Game",
   data: function () {
     return {
+      topo: 'DESCUBRA',
       q: 'Q',
       w: 'W',
       e: 'E',
@@ -197,6 +212,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Impact", Times, serif;
+  font-size: 40px;
+  color: #337ab7;
 }
 #middle{
   height: 60vh;
@@ -287,4 +305,13 @@ button{
 button:hover{
   background-color: #337ab7;
 }
+.conteudo {
+  margin: 80px;
+  float: right;
+}
+
+.margin10 {
+  margin-right: 10px;
+}
+
 </style>
