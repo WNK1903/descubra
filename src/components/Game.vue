@@ -9,7 +9,7 @@
   </div>
   <div class="conteudo">
     <div>
-      <i class="fa-solid fa-chart-simple"></i>
+      <i class="fa-solid fa-chart-simple margin10"></i>
       <i class="fa-solid fa-gear"></i>
     </div>
   </div>
@@ -230,6 +230,11 @@ button:hover{
 }
 .conteudo {
   margin: 80px;
+  float: right;
+}
+
+.margin10 {
+  margin-right: 10px;
 }
 
 </style>
