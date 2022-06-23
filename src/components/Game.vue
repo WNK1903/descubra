@@ -2,7 +2,10 @@
 
   <div id="top">
     <div class="conteudo">
-    <i class="fa-solid fa-circle-chevron-up"></i>
+      <div>
+        <i class="fa-solid fa-circle-question margin10"></i>
+        <i class="fa-solid fa-circle-chevron-up"></i>
+      </div>
   </div>
   <div class="conteudo">
     {{topo}}
