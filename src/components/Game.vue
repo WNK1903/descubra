@@ -6,16 +6,16 @@
         <i class="fa-solid fa-circle-question margin10"></i>
         <i class="fa-solid fa-circle-chevron-up"></i>
       </div>
-  </div>
-  <div class="conteudo">
-    {{topo}}
-  </div>
-  <div class="conteudo">
-    <div>
-      <i class="fa-solid fa-chart-simple margin10"></i>
-      <i class="fa-solid fa-gear"></i>
     </div>
-  </div>
+    <div class="conteudo">
+      {{topo}}
+    </div>
+    <div class="conteudo">
+      <div>
+        <i class="fa-solid fa-chart-simple margin10"></i>
+        <i class="fa-solid fa-gear"></i>
+      </div>
+    </div>
   </div>
   <div id="middle">
     <div id="words-table">

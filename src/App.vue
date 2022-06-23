@@ -13,7 +13,6 @@ import Game from './components/Game.vue';
 #app {
   height: 100vh;
   width: 100vw;
-  background-image: url("paper.gif");
 }
   
 </style>
