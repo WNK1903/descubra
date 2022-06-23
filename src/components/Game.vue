@@ -53,6 +53,26 @@
 </template>
 
 <script>
+const attemps = {
+  'line1':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ],
+  'line2':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ],
+  'line3':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ],
+  'line4':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ],
+  'line5':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ],
+  'line6':[
+    {'attempSubmited' : '', 'attempSuccess' : ''}
+  ], 
+};
 export default {
   name: "Game",
   data: function () {
@@ -92,16 +112,54 @@ export default {
         ['', '', '', '', ''],
         ['', '', '', '', ''],
         ['', '', '', '', '']
-      ]
+      ],
+      attemps: {
+        'line0':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+        'line1':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+        'line2':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+        'line3':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+        'line4':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+        'line5':[
+          {'attempSubmited' : false, 'attempSuccess' : false}
+        ],
+      },
     };
   },
   mounted() {},
   methods: {
     //função para montar a palavra na linha
     mountWord: function(letter){
-      this.arrWords.unshift(letter);
-      console.log(this.arrWords);
+      for(let i =  0; i < this.arrWords.length; i++){
+        for(let z = 0; z < this.arrWords[0].length; z++){
+          if(this.arrWords[i][4] != '' && !this.verifyAttemp(i)){
+            return;
+          }
+          else if(this.arrWords[i][z] == ''){
+            this.arrWords[i][z] = letter;
+            return;
+          }
+          
+        }
+      }
 
+    },
+    verifyAttemp: function(lineNumber){
+      if(lineNumber == 0)return this.attemps.line0.attempSubmited;
+      else if(lineNumber == 1) return this.attemps.line1.attempSubmited;
+      else if(lineNumber == 2) return this.attemps.line2.attempSubmited;
+      else if(lineNumber == 3) return this.attemps.line3.attempSubmited;
+      else if(lineNumber == 4) return this.attemps.line4.attempSubmited;
+      else return this.attemps.line5.attempSubmited;
     },
     //função para excluir a última letra adicionada na linha corrente
     erraseWord: function(){
@@ -198,8 +256,7 @@ export default {
     box-sizing: border-box;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
-    line-height: 1em;
+    font-size: 3em;
     text-transform: uppercase;
     --happy-jump: 55%;
     cursor: pointer;
@@ -208,6 +265,7 @@ export default {
 button{
   color: #337ab7;
   border-color: #337ab7;
+  outline:none!important; 
 }
 
 button:hover{
