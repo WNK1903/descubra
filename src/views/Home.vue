@@ -1,13 +1,9 @@
 <script setup>
-import Header from '@/components/Header.vue'
-import Keyboard from '@/components/Keyboard.vue';
-import LettersGrid from '@/components/LettersGrid.vue';
+import Game from '@/components/Game.vue';
 </script>
 
 <template>
-  <main>
-    <Header />
-    <LettersGrid />
-    <Keyboard />
+  <main class="container">
+    <Game />
   </main>
 </template>

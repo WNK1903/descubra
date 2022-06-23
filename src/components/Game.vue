@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: "LettersGrid",
+  name: "Game",
   data: function () {
     return {
-      testeletters: 'Testando reatividade letters-grid',
+      testeletters: 'Testando reatividade Game',
     };
   },
   mounted() {},
