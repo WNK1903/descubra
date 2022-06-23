@@ -1,10 +1,14 @@
 <template>
 
   <div id="top">
-    {{top}}
+
   </div>
   <div id="middle">
-    {{middle}}
+    <div id="words-table">
+      <div class="words-row" v-for="(line, index) in arrWords">
+        <div class="letter-table" v-for="(item, index) in line">{{item}}</div>
+      </div>
+    </div>
   </div>
   <div id="bottom">
     <div id="keyboard">
@@ -53,9 +57,6 @@ export default {
   name: "Game",
   data: function () {
     return {
-      top: 'Topo',
-      middle: 'Meio',
-      bottom: 'Bottom',
       q: 'Q',
       w: 'W',
       e: 'E',
@@ -84,14 +85,21 @@ export default {
       n: 'N',
       m: 'M',
       enter: 'ENTER',
-      arrWords: Array
+      arrWords: [
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', '']
+      ]
     };
   },
   mounted() {},
   methods: {
     //função para montar a palavra na linha
     mountWord: function(letter){
-      this.arrWords += letter;
+      this.arrWords.unshift(letter);
       console.log(this.arrWords);
 
     },
@@ -105,6 +113,10 @@ export default {
 </script>
 
 <style scoped>
+
+*{
+  /* font-family: 'Font Awesome 5'; */
+}
 #top{
   height: 10vh;
   width: 100%;
@@ -137,7 +149,6 @@ export default {
 #enter, #backspace{
   height: 3.5em;
   font-weight: bolder;
-  font-family: 'Font Awesome 5';
 }
 
 #backspace{
@@ -158,5 +169,48 @@ export default {
 
 .letter, #backspace, #enter{
   margin-inline: 0.25em;
+}
+
+#words-table{
+  height: 80%;
+  width: 30%;
+  display: grid;
+  grid-gap: 0.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.words-row{
+  display: grid;
+  grid-template-columns: repeat(5, 20fr);
+  grid-gap: 0.5em;
+  font-size: 1em;
+  margin: 0;
+  line-height: 0;
+}
+
+.letter-table{
+    font-weight: bolder;
+    color: #FAFAFF;
+    background-color: #337ab7;
+    border-radius: 10%;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    line-height: 1em;
+    text-transform: uppercase;
+    --happy-jump: 55%;
+    cursor: pointer;
+}
+
+button{
+  color: #337ab7;
+  border-color: #337ab7;
+}
+
+button:hover{
+  background-color: #337ab7;
 }
 </style>
