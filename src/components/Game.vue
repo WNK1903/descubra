@@ -48,7 +48,7 @@
         <button @click="mountWord(j)" class="letter btn btn-outline-primary">{{j}}</button>
         <button @click="mountWord(k)" class="letter btn btn-outline-primary">{{k}}</button>
         <button @click="mountWord(l)" class="letter btn btn-outline-primary">{{l}}</button>
-        <button @click="erraseWord()" id="backspace" class="btn btn-outline-primary"><i class="fa-solid fa-delete-left"></i></button>
+        <button @click="erraseLetter()" id="backspace" class="btn btn-outline-primary"><i class="fa-solid fa-delete-left"></i></button>
       </div>
       <div class="keyboard-line">
         <button @click="mountWord(z)" class="letter btn btn-outline-primary">{{z}}</button>
@@ -67,26 +67,6 @@
 </template>
 
 <script>
-const attemps = {
-  'line1':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ],
-  'line2':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ],
-  'line3':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ],
-  'line4':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ],
-  'line5':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ],
-  'line6':[
-    {'attempSubmited' : '', 'attempSuccess' : ''}
-  ], 
-};
 export default {
   name: "Game",
   data: function () {
@@ -130,6 +110,7 @@ export default {
         ['', '', '', '', '']
       ],
       attemps: {
+        'current': 0,
         'line0':[
           {'attempSubmited' : false, 'attempSuccess' : false, 'readyToAttemp' : false}
         ],
@@ -190,17 +171,12 @@ export default {
     mountWord: function(letter){
       for(let i =  0; i < this.arrWords.length; i++){
         for(let z = 0; z < this.arrWords[0].length; z++){
-          if(this.arrWords[i][4] != '' && !this.verifyAttemp(i)){
-            if(i == 0) this.attemps.line0.readyToAttemp = true;
-            else if(i == 1) this.attemps.line1.readyToAttemp = true;
-            else if(i == 2) this.attemps.line2.readyToAttemp = true;
-            else if(i == 3) this.attemps.line3.readyToAttemp = true;
-            else if(i == 4) this.attemps.line4.readyToAttemp = true;
-            else if(i == 5) this.attemps.line5.readyToAttemp = true;
+          if(this.arrWords[i][4] != '' && this.currentAttemp(i)){
             return;
           }
           else if(this.arrWords[i][z] == ''){
             this.arrWords[i][z] = letter;
+            if(z == 4)this.swapReadyToAttemp(i, true);
             return;
           }
           
@@ -208,52 +184,32 @@ export default {
       }
 
     },
-    verifyAttemp: function(lineNumber){
-      if(lineNumber == 0)return this.attemps.line0.attempSubmited;
-      else if(lineNumber == 1) return this.attemps.line1.attempSubmited;
-      else if(lineNumber == 2) return this.attemps.line2.attempSubmited;
-      else if(lineNumber == 3) return this.attemps.line3.attempSubmited;
-      else if(lineNumber == 4) return this.attemps.line4.attempSubmited;
-      else return this.attemps.line5.attempSubmited;
+    swapReadyToAttemp: function(line, ready){
+      if(line == 0) this.attemps.line0.readyToAttemp = ready;
+      else if(line == 1) this.attemps.line1.readyToAttemp = ready;
+      else if(line == 2) this.attemps.line2.readyToAttemp = ready;
+      else if(line == 3) this.attemps.line3.readyToAttemp = ready;
+      else if(line == 4) this.attemps.line4.readyToAttemp = ready;
+      else if(line == 5) this.attemps.line5.readyToAttemp = ready;
     },
-    //função para excluir a última letra adicionada na linha corrente
-    erraseWord: function(){
-      if(!this.verifyAttemp(0)) this.erraseLetter(0);
-      else if(!this.verifyAttemp(1)) this.erraseLetter(1);
-      else if(!this.verifyAttemp(2)) this.erraseLetter(2);
-      else if(!this.verifyAttemp(3)) this.erraseLetter(3);
-      else if(!this.verifyAttemp(4)) this.erraseLetter(4);
-      else if(!this.verifyAttemp(5)) this.erraseLetter(5);
-
+    //retorna a tentantiva corrente
+    currentAttemp: function(lineNumber){
+      if(this.attemps.current == lineNumber) return true;
+      else return false;
     },
-    erraseLetter: function(lineNumber){
+    //ajustar lógica para não apagar linha que já foi submetida 
+    erraseLetter: function(line = this.attemps.current){
       for(let i =  this.arrWords[0].length; i >= 0; i--){
-        if(this.arrWords[lineNumber][i] !== '' && !(this.arrWords[lineNumber][i] === undefined)){
-          this.arrWords[lineNumber][i] = '';
-          if(i == 0) this.attemps.line0.readyToAttemp = false;
-          else if(i == 1) this.attemps.line1.readyToAttemp = false;
-          else if(i == 2) this.attemps.line2.readyToAttemp = false;
-          else if(i == 3) this.attemps.line3.readyToAttemp = false;
-          else if(i == 4) this.attemps.line4.readyToAttemp = false;
-          else if(i == 5) this.attemps.line5.readyToAttemp = false;
+        if(this.arrWords[line][i] !== '' && !(this.arrWords[line][i] === undefined && this.currentAttemp(line))){
+          this.arrWords[line][i] = '';
+          this.swapReadyToAttemp(line, false);
           return;
         } 
       }
     },
     //função para submeter uma tentativa
     submitAttemp: function(){
-      let i = 0;
-      let word;
-      if(this.attemps.line0.readyToAttemp && !this.attemps.line0.attempSubmited) i = 0;
-      else if(this.attemps.line1.readyToAttemp && !this.attemps.line1.attempSubmited) i = 1;
-      else if(this.attemps.line2.readyToAttemp && !this.attemps.line2.attempSubmited) i = 2;
-      else if(this.attemps.line3.readyToAttemp && !this.attemps.line3.attempSubmited) i = 3;
-      else if(this.attemps.line4.readyToAttemp && !this.attemps.line4.attempSubmited) i = 4;
-      else if(this.attemps.line5.readyToAttemp && !this.attemps.line5.attempSubmited) i = 5;
-      for(let z = 0; z < this.arrWords[i].length; z++){
-        word += this.arrWords[i][z];
-      }
-      console.log(word);
+    
     },
   },
 };
