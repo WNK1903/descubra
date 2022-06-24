@@ -1,6 +1,7 @@
 # DESCUBRA
 
-This template should help get you started developing with Vue 3 in Vite.
+Trabalho do GB da disciplina de Desenvolvimento para a Web
+Autores: Willian Winck e Gustavo Pinto
 
 ## Recommended IDE Setup
 
