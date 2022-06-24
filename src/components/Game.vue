@@ -68,6 +68,7 @@
 
 <script>
 import axios from 'axios';
+import { stringify } from 'postcss';
 
 export default {
   name: "Game",
@@ -114,7 +115,7 @@ export default {
       attemps: {
         'current': 0,
         'line0':[
-          {'attempSubmited' : false, 'attempSuccess' : false, 'readyToAttemp' : false}
+          {'attempSubmited' : false, 'attempSuccess' : false, 'readyToAttemp' : false, 'word': ''}
         ],
         'line1':[
           {'attempSubmited' : false, 'attempSuccess' : false, 'readyToAttemp' : false}
@@ -133,6 +134,10 @@ export default {
         ],
       },
       word: '',
+      wordTableElements: '',
+      colorRigth: '#3aa394',
+      colorWrong: '#312a2c',
+      colorPartial: '#d3ad69',
       dicioWords:
         [
           ["sagaz", "sagaz"],
@@ -165,15 +170,9 @@ export default {
     };
   },
   mounted() {
-      // axios
-      //   .get("https://api.dicionario-aberto.net/random",)
-      //   .then((response) => {
-      //     word = response.data.word;
-      //     console.log(response.data);
-      //   }).catch(function(error){
-      //     console.log(error.toJSON());
-      //   });
     this.word = this.dicioWords[Math.floor(Math.random()*25)][0];
+    console.log(this.word);
+    this.wordTableElements = document.getElementsByClassName('letter-table');
   },
   methods: {
     //função para montar a palavra na linha
@@ -225,13 +224,107 @@ export default {
         } 
       }
     },
+    getWordByLine: function(line){
+      let word = '';
+      for(let i = 0; i < this.arrWords[line].length; i++){
+        word += this.arrWords[line][i].split('undefined');
+      }
+      return word.replace('undefined', '').toLowerCase();
+    },
+    verifyWordIsValid: function (word) {
+      let valid; 
+       axios
+        .get("https://api.dicionario-aberto.net/word/"+word)
+        .then((response) =>{
+          if(response.data[0].word == word)
+            valid = true;
+          else
+            valid = false;
+          return valid;
+        })
+        .catch(function(error){
+          console.log(error.toJSON());
+        })
+
+    },
+    returnWordIsValid: function(){
+      if(this.verifyWordIsValid(this.getWordByLine(this.attemps.current)))
+        return true;
+      else 
+        return false;
+    },
+    compareWords: function () { 
+      let wordAttemp = this.getWordByLine(this.attemps.current);
+      console.log(wordAttemp);
+      console.log(this.word);
+      let currentLineElements = this.getElementsFromWordTableLine(this.attemps.current);
+      console.log(currentLineElements);
+      for(let i = 0; i < 5; i ++){
+        for(let z = 0; z < 5; z++){
+          if(wordAttemp.charAt(z) == this.word.charAt(z)){
+            this.swapColor(z, currentLineElements, this.colorRigth);
+          } 
+          else{
+            this.swapColor(z, currentLineElements, this.colorWrong);
+          }
+        }
+        // if(wordAttemp.indexOf(wordAttemp.charAt(i)) == this.word.indexOf(this.word.charAt(i))){
+        //   this.swapColor(i, currentLineElements, this.colorRigth);
+        // }
+        // else{
+        //   this.swapColor(i, currentLineElements, this.colorWrong);
+        // }
+      }
+
+    },
+    swapColor: function(index, elements, color){
+      elements[index].style.background = color;
+    },
+    getElementsFromWordTableLine: function (line) {
+      let elements = new Array(6);
+      let i = 0;
+      let length = 5;
+      if(line == 1){
+        i = 5;
+        length = 10;
+      }
+      else if(line == 2){
+        i = 10;
+        length = 15;
+      }
+      else if(line == 3){
+        i = 15;
+        length = 20;
+      }
+      else if(line == 4){
+        i = 20;
+        length = 25;
+      }
+      else if(line == 5){
+        i = 25;
+        length = 30;
+      }
+      for(i; i < length; i++){
+        elements.push(this.wordTableElements[i])
+      }
+      elements = elements.filter(function(i){
+        return i;
+      });
+      return elements;
+    },
     //função para submeter uma tentativa
     submitAttemp: function(){
       //verifica se a linha corrente está proonta para ser submetida a tentativa
-      if(!this.verifyReadyToAttemp(this.attemps.current))
-        alert('Somente palavras com 5 letras!'); 
-
-
+      if(!this.verifyReadyToAttemp(this.attemps.current)){
+        alert('Somente palavras com 5 letras!');
+        return;
+      }
+      //FIXME - Ajustar validação da palavra  
+      // if(!this.returnWordIsValid() && this.returnWordIsValid() != undefined)
+      //   alert('Palavra inválida!');
+      this.compareWords();
+      console.log(this.wordTableElements);
+      this.attemps.current++;
     },
   },
 };
