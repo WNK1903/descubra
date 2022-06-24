@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "Game",
   data: function () {
@@ -163,8 +165,15 @@ export default {
     };
   },
   mounted() {
+      // axios
+      //   .get("https://api.dicionario-aberto.net/random",)
+      //   .then((response) => {
+      //     word = response.data.word;
+      //     console.log(response.data);
+      //   }).catch(function(error){
+      //     console.log(error.toJSON());
+      //   });
     this.word = this.dicioWords[Math.floor(Math.random()*25)][0];
-    console.log(this.word);
   },
   methods: {
     //função para montar a palavra na linha
@@ -192,6 +201,15 @@ export default {
       else if(line == 4) this.attemps.line4.readyToAttemp = ready;
       else if(line == 5) this.attemps.line5.readyToAttemp = ready;
     },
+    verifyReadyToAttemp: function(line){
+      if(line == 0) return this.attemps.line0.readyToAttemp;
+      else if(line == 1) return this.attemps.line1.readyToAttemp;
+      else if(line == 2) return this.attemps.line2.readyToAttemp;
+      else if(line == 3) return this.attemps.line3.readyToAttemp;
+      else if(line == 4) return this.attemps.line4.readyToAttemp;
+      else if(line == 5) return this.attemps.line5.readyToAttemp;
+
+    },
     //retorna a tentantiva corrente
     currentAttemp: function(lineNumber){
       if(this.attemps.current == lineNumber) return true;
@@ -209,7 +227,11 @@ export default {
     },
     //função para submeter uma tentativa
     submitAttemp: function(){
-    
+      //verifica se a linha corrente está proonta para ser submetida a tentativa
+      if(!this.verifyReadyToAttemp(this.attemps.current))
+        alert('Somente palavras com 5 letras!'); 
+
+
     },
   },
 };
